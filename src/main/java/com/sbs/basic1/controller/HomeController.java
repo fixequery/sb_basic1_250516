@@ -1,5 +1,8 @@
 package com.sbs.basic1.controller;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.io.IOException;
 import java.util.*;
 
 @Controller
@@ -41,6 +45,42 @@ public class HomeController {
   public String showHome3() {
 
     return "스프링부트는 획기적이다234";
+  }
+
+  @GetMapping("/home/cookie/increase")
+  @ResponseBody
+  public void showCookie(HttpServletRequest req, HttpServletResponse res) throws IOException {
+    // req : 요청
+    // res : 응답에 대한 답장
+    req.getCookies();
+    res.getWriter().append("Hello");
+  }
+
+  @GetMapping("/home/cookie/reqAndRes")
+  @ResponseBody
+  public void reqAndRes(HttpServletRequest req, HttpServletResponse res) throws IOException {
+    int age = Integer.parseInt(req.getParameter("age"));
+    res.getWriter().append("Hello. Im %d years old".formatted(age));
+  }
+
+  @GetMapping("/home/cookie/increase2")
+  @ResponseBody
+  public int increase2(HttpServletRequest req, HttpServletResponse res) throws IOException {
+    int countInCookie = 0;
+
+    if(req.getCookies() != null) {
+      countInCookie = Arrays.stream(req.getCookies())
+          .filter(cookie -> cookie.getName().equals("count"))
+          .map(Cookie::getValue)
+          .mapToInt(Integer::parseInt)
+          .findFirst()
+          .orElse(0);
+    }
+
+    int newCountInCookie = countInCookie + 1;
+
+    res.addCookie(new Cookie("count",newCountInCookie + ""));
+    return newCountInCookie;
   }
 
   @GetMapping("/home/plus")
