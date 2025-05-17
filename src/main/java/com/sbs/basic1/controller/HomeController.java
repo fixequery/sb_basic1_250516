@@ -190,10 +190,49 @@ public class HomeController {
     return "%d번 사람이 추가되었습니다".formatted(p.getId());
   }
 
+  @GetMapping("/home/removePerson")
+  @ResponseBody
+  public String removePerson(int id) {
+/*
+    for(Person p : personList){
+      if(p.getId() == id){
+        target = p;
+        break;
+      }
+    }
+
+    if(target == null){
+      return "id %d 존재하지 않습니다".formatted(id);
+    }else{
+      personList.remove(target);
+      return "id %d 삭제 완료했습니다.".formatted(target.getId());
+    }
+*/
+    // 리스트에 해당 요소가 있으면 삭제
+    // 삭제가 성공되면 true 반환, 실패하면 false 반환
+    boolean flag = personList.removeIf(person -> person.getId() == id);
+
+    if(flag){
+      return "id %d 삭제 완료했습니다.".formatted(id);
+    }else{
+      return "id %d 존재하지 않습니다".formatted(id);
+    }
+  }
+
   @GetMapping("/home/showPeople")
   @ResponseBody
   public List<Person> showPeople() {
     return personList;
+  }
+
+  @GetMapping("/home/personTestCase")
+  @ResponseBody
+  public void personTestCase() {
+    personList.add(new Person("김이병",20));
+    personList.add(new Person("박상병",22));
+    personList.add(new Person("장병장",24));
+
+    System.out.println("테스트데이터 설정 완료");
   }
 }
 
