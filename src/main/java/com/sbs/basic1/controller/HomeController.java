@@ -219,6 +219,33 @@ public class HomeController {
     }
   }
 
+  @GetMapping("/home/modifyPerson")
+  @ResponseBody
+  public String modifyPerson(int id, String name, int age) {
+/*
+    Person target = null;
+    for(Person p : personList){
+      if(p.getId() == id){
+        target = p;
+      }
+    }
+*/
+    Person target = personList.stream()
+        .filter(p->p.getId() == id) // 해당객체의 id값에 해당하는 것만 필터링
+        .findFirst()      // 조회대상 중 하나만 남는 것을 필터링
+        .orElse(null);  // 없으면 null 반환
+
+    if(target == null){
+      return "id %d 대상이 없습니다".formatted(id);
+    }else{
+      target.setAge(age);
+      target.setName(name);
+
+      return "id %d 대상이 수정되었습니다".formatted(id);
+    }
+  }
+
+
   @GetMapping("/home/showPeople")
   @ResponseBody
   public List<Person> showPeople() {
