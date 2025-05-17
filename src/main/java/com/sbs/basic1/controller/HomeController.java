@@ -16,6 +16,9 @@ import java.util.*;
 // 이 클래스는 웹 요청을 받아서 작업을 한다
 // @Controller 애노테이션이 붙은게 컨트롤러야
 public class HomeController {
+  int num;
+  List<Person> personList = new ArrayList<>();
+
   @GetMapping("/home/main")
   // 개발자가 /home/main 이라는 요청을 보내면
   // 아래 메서드를 수행해줘
@@ -23,56 +26,56 @@ public class HomeController {
   @ResponseBody
   // 아래 메서드를 실행 후 리턴값을 응답으로 삼아
   // body에 출력
-  public String showHome(){
+  public String showHome() {
     return "어서오세요";
   }
 
   @GetMapping("/home/main2")
   @ResponseBody
-  public String showHome2(){
+  public String showHome2() {
     return "환영합니다";
   }
 
   @GetMapping("/home/main3")
   @ResponseBody
-  public String showHome3(){
+  public String showHome3() {
 
     return "스프링부트는 획기적이다234";
   }
 
   @GetMapping("/home/plus")
   @ResponseBody
-  public int showPlus(int a, @RequestParam(defaultValue = "0") int b){
+  public int showPlus(int a, @RequestParam(defaultValue = "0") int b) {
     // @RequestParam(defaultValue = "0")
     // 쿼리스트링을 넣을 때 파라미터 인식가능하게끔 하는 방법
     // 1) java compiler -> -parameters
     // 2) 파라미터를 생략했을 때 기본값으로 인식하게끔 하는 방법 -> @RequestParam(defaultValue="0")
-    return a+b ;
+    return a + b;
   }
 
   @GetMapping("/home/returnBoolean")
   @ResponseBody
-  public Boolean showReturnBoolean(){
+  public Boolean showReturnBoolean() {
     return true;
   }
 
   @GetMapping("/home/returnDouble")
   @ResponseBody
-  public double showReturnDouble(){
+  public double showReturnDouble() {
     return Math.PI;
   }
 
   @GetMapping("/home/returnArray")
   @ResponseBody
-  public int[] showReturnArray(){
-    int[] arr = new int[]{10,20,30};
+  public int[] showReturnArray() {
+    int[] arr = new int[]{10, 20, 30};
     System.out.println(arr); // 주소값
     return arr;
   }
 
   @GetMapping("/home/returnList")
   @ResponseBody
-  public List<Integer> showReturnList(){
+  public List<Integer> showReturnList() {
 //    List<Integer> list = new ArrayList<>(){{
 //      add(10);
 //      add(20);
@@ -88,25 +91,25 @@ public class HomeController {
 
   @GetMapping("/home/returnMap")
   @ResponseBody
-  public Map<String, Object> showReturnMap(){
+  public Map<String, Object> showReturnMap() {
     Map<String, Object> map = new HashMap<>();  // 순서가 없음
     Map<String, Object> map2 = new LinkedHashMap<>(); // 순서를 보장
 
-    map.put("id",1);
-    map.put("subject","스프링부트는 무엇인가요?");
-    map.put("content","스프링부트는 무엇이고 어떻게 사용하나요?");
+    map.put("id", 1);
+    map.put("subject", "스프링부트는 무엇인가요?");
+    map.put("content", "스프링부트는 무엇이고 어떻게 사용하나요?");
 
-    map2.put("개발자경력",4);
-    map2.put("소속회사","교보생명보험, 신성통상, 펄어비스");
-    map2.put("희망연봉",5500);
+    map2.put("개발자경력", 4);
+    map2.put("소속회사", "교보생명보험, 신성통상, 펄어비스");
+    map2.put("희망연봉", 5500);
 
     return map2;
   }
 
   @GetMapping("/home/returnArticle")
   @ResponseBody
-  public Article showReturnArticle(){
-    Article art1cle = new Article(1,"직장","교보생명", new ArrayList<>(){{
+  public Article showReturnArticle() {
+    Article art1cle = new Article(1, "직장", "교보생명", new ArrayList<>() {{
       add(10);
       add(20);
       add(30);
@@ -116,8 +119,8 @@ public class HomeController {
 
   @GetMapping("/home/returnArticle2")
   @ResponseBody
-  public Article2 showReturnArticle2(){
-    Article2 art1cle2 = new Article2(1,"야구","한화", new ArrayList<>(){{
+  public Article2 showReturnArticle2() {
+    Article2 art1cle2 = new Article2(1, "야구", "한화", new ArrayList<>() {{
       add(1);
       add(2);
       add(3);
@@ -127,29 +130,29 @@ public class HomeController {
 
   @GetMapping("/home/returnArticleMapList")
   @ResponseBody
-  public List<Map<String, Object>> showReturnArticleMapList(){
-    Map<String, Object> articleMap1 = new LinkedHashMap<>(){{
-      put("id",1);
-      put("subject","제목1");
-      put("content","내용1");
-      put("articleNo",new ArrayList<>(){{
+  public List<Map<String, Object>> showReturnArticleMapList() {
+    Map<String, Object> articleMap1 = new LinkedHashMap<>() {{
+      put("id", 1);
+      put("subject", "제목1");
+      put("content", "내용1");
+      put("articleNo", new ArrayList<>() {{
         add(1);
         add(2);
         add(3);
       }});
     }};
-    Map<String, Object> articleMap2 = new LinkedHashMap<>(){{
-      put("id",2);
-      put("subject","제목2");
-      put("content","내용2");
-      put("articleNo",new ArrayList<>(){{
+    Map<String, Object> articleMap2 = new LinkedHashMap<>() {{
+      put("id", 2);
+      put("subject", "제목2");
+      put("content", "내용2");
+      put("articleNo", new ArrayList<>() {{
         add(1);
         add(2);
         add(3);
       }});
     }};
 
-    List<Map<String,Object>> list = new ArrayList<>();
+    List<Map<String, Object>> list = new ArrayList<>();
     list.add(articleMap1);
     list.add(articleMap2);
     return list;
@@ -157,13 +160,13 @@ public class HomeController {
 
   @GetMapping("/home/returnArticleList")
   @ResponseBody
-  public List<Article2> showReturnArticleList(){
-    Article2 art1cle1 = new Article2(1,"제목1","내용1", new ArrayList<>(){{
+  public List<Article2> showReturnArticleList() {
+    Article2 art1cle1 = new Article2(1, "제목1", "내용1", new ArrayList<>() {{
       add(4);
       add(5);
       add(6);
     }});
-    Article2 art1cle2 = new Article2(2,"제목2","내용2", new ArrayList<>(){{
+    Article2 art1cle2 = new Article2(2, "제목2", "내용2", new ArrayList<>() {{
       add(4);
       add(5);
       add(6);
@@ -176,6 +179,22 @@ public class HomeController {
     return list;
   }
 
+  @GetMapping("/home/addPerson")
+  @ResponseBody
+  public String addPerson(String name, int age) {
+    Person p = new Person(name, age);
+    System.out.println(p);
+
+    personList.add(p);
+
+    return "%d번 사람이 추가되었습니다".formatted(p.getId());
+  }
+
+  @GetMapping("/home/showPeople")
+  @ResponseBody
+  public List<Person> showPeople() {
+    return personList;
+  }
 }
 
 class Article{
@@ -239,4 +258,23 @@ class Article2 {
   private String subject;
   private String content;
   private List<Integer> articleNo;
+}
+
+@AllArgsConstructor
+@Getter
+@Setter
+@ToString
+class Person{
+  private static int lastId;
+  private final int id;
+  private String name;
+  private int age;
+
+  static{
+    lastId = 0;
+  }
+
+  public Person(String name, int age){
+    this(++lastId, name, age);
+  }
 }
